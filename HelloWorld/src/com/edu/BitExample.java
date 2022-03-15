@@ -34,7 +34,6 @@ public class BitExample {
 	   cnt--; //1을 감소시킴 '--'
 	   System.out.println(cnt);
 	   
-	   int 
 	   
 	   
 	   
