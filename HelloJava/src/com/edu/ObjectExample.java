@@ -17,7 +17,7 @@ public class ObjectExample {
 		car1.setModel("Sonata");
 		car1.setPrice(10000000);
 		
-		Student s1 = new Student();
+		Student s1 = new Student(); //초기화시점에 값을 지정
 		s1.setStudNo(100);
 		s1.setStudName("김수한");
 		s1.setEngScore(80);
