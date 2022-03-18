@@ -1,4 +1,6 @@
 package com.edu;
+// 객체지향 프로그램언어 - 
+// 절차프로그램(데이터와 함수가 구분되어 있음) -> 객체(데이터, 기능(함수), )
 // Object(객체) -> class(도면, 틀) -> 인스턴스 생성(초기화(생성))
 // 학생(객체:Object) -> Class Student -> instance(new Student())
 public class ObjectExample {

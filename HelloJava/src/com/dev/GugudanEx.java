@@ -5,8 +5,7 @@ public class GugudanEx {
 	public static void main(String[] args) { // static = instance를 안 만들어도 실행 가능
 		for (int i = 1; i <= 5; i++) {
 			printStar(i, "★");
-			System.out.println();
-		}
+		} 
 //		gududan(5);
 //		int result = sum(sum(10, 20), sum(5, 7));
 //		int[] newAry = { 10, 20, 30 };
@@ -41,8 +40,9 @@ public class GugudanEx {
 
 	public static void printStar(int runCnt, String shape) { // 메소드 안에 메소드가 들어가면 안됨
 		for (int i = 0; i < runCnt; i++) {
-			System.out.println(shape);
+			System.out.print(shape);
 		}
+		System.out.println();
 	}
 
 	public static void gududan(int dan) {

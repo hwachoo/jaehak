@@ -7,6 +7,9 @@ import com.edu.Student; //경로가 달라도 import해줘야 사용가능함
 public class ObjectExample {
 	public static void main(String[] args) {
 		Scanner scn = new Scanner(System.in);
+		
+		Student stud = null; //null값 할당이어서
+		stud.getAvgScore(); //변수에 실체가 없음 실행 시 오류가 출력됨
 
 		Student s1 = new Student(100, "김수한"); // studNo = 100
 //		s1.setStudNo(100); //private정보여서 다른 패키지에서 가져오지 못함

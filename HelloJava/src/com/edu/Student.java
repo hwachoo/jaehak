@@ -1,7 +1,7 @@
 package com.edu;
 
 public class Student {
-	// 학생번호, 학생이름, 국어점수, 수학점수, 영어점수
+
 	private int studNo; //private = 은폐 public = 공개
 	private String studName;
 	private int korScore = -1;
