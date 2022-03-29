@@ -1,11 +1,10 @@
 package com.edu.collect;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class StudentApp {
-
+	//필드
 	List<Student> list = new ArrayList<Student>();// 컬렉션 생성
 	Scanner scn = new Scanner(System.in);
 
@@ -17,12 +16,17 @@ public class StudentApp {
 		list.add(new Student(104, "김철수", 80, 92));
 	}
 
-	// 멤버클래스
-	class StudentServiceImpl implements StudentService { // 기능생성
-
+	// 멤버클래스 StudentServiceImpl(중첩클래스의 기능 대체)
+	// 입력, 수정, 삭제 => 파일에 저장이 되도록 기능 구현
+	public class StudentServiceImpl implements StudentService { // 기능생성
+		
+		List<Student> list = new ArrayList<Student>();
+		File file;
+		
+		
 		@Override
 		public void insertStudent(Student student) {
-			list.add(student); // 추가.
+			 list.add(student);// 추가.
 		}
 
 		@Override // 1건조회
@@ -70,10 +74,31 @@ public class StudentApp {
 			}
 			return searchList;
 		}
-	} // end of StudentService
 
+		@Override
+		public void saveToFile() {
+			//ArrayList<Student> list =:> 파일 저장.
+			try {
+				FileWriter fw = new FileWriter("studentList.data");
+				BufferedWriter bw = new BufferedWriter(fw);
+				
+				for(Student stud : list) {
+					bw.write(stud.getStudNum() + "\n" + stud.getStudName() + "\n" + stud.getEngSc() + "\n" + stud.getKorSc() + "\n+");
+				}
+				bw.close();
+				fw.close();
+				
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	} // end of StudentService
+	//메인기능 담당
 	public void execute()/* 실제 실행되는 내용, 다른 기능 불러옴 */ {
-		StudentService/* 인터페이스 */ service/* 변수선언 */ = new StudentServiceImpl/* 인터페이스 구현 클래스 */();
+		StudentService/* 인터페이스 */ service/* 변수선언 */ = new StudentServiceFile()/* 인터페이스 구현 클래스 */;
+//									service = new StudentServiceImpl();
+//									service = new StudentServiceOracle();
 		// 1.추가 2.리스트 3.한건조회 4.수정 5.삭제 9.종료
 		int menu = 0;
 		int studNum = 0;
@@ -166,6 +191,7 @@ public class StudentApp {
 
 			} else if (menu == 9) {
 				System.out.println("프로그램을 종료합니다.");
+				service.saveToFile();
 				break;
 			}
 		}

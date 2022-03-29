@@ -1,5 +1,7 @@
-package com.edu.collect;
-//상속 클래스
+package com.edu.io;
+
+import java.io.Serializable;
+
 public class Student {
 	//참조용, 학생번호(int 1,2,3 sno), 학생이름(String), 영어점수(int), 국어점수(int)
 	
@@ -49,7 +51,7 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "[ 학번: " + StudNum + "이름: " + StudName + "영어점수: " + EngSc + "국어점수: " + KorSc + "]\n";
+		return "학생정보 \n학번: " + StudNum + "\n이름: " + StudName + "\n영어점수: " + EngSc + "\n국어점수: " + KorSc;
 	}
 	
 
