@@ -55,9 +55,9 @@ public class StudentApp {
 		}
 
 		@Override // 삭제
-		public void deleteInfo(Student student) {
+		public void deleteInfo(int sno) {
 			for (int i = 0; i < list.size(); i++) {
-				if (list.get(i).getStudNum() == student.getStudNum()) {
+				if (list.get(i).getStudNum() == sno) {
 					list.remove(i);
 				}
 			}
@@ -83,7 +83,7 @@ public class StudentApp {
 				BufferedWriter bw = new BufferedWriter(fw);
 				
 				for(Student stud : list) {
-					bw.write(stud.getStudNum() + "\n" + stud.getStudName() + "\n" + stud.getEngSc() + "\n" + stud.getKorSc() + "\n+");
+					bw.write(stud.getStudNum() + "," + stud.getStudName() + "," + stud.getEngSc() + "," + stud.getKorSc());
 				}
 				bw.close();
 				fw.close();
@@ -93,12 +93,22 @@ public class StudentApp {
 				e.printStackTrace();
 			}
 		}
+
+		@Override //이름조회
+		public Student getoneStudent(String name) {
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).getStudName() == name) { // StudNum과 sno의 값이 같을때
+					return list.get(i); // 결과출력
+				}
+			}
+			return null;
+		}
 	} // end of StudentService
 	//메인기능 담당
 	public void execute()/* 실제 실행되는 내용, 다른 기능 불러옴 */ {
-		StudentService/* 인터페이스 */ service/* 변수선언 */ = new StudentServiceFile()/* 인터페이스 구현 클래스 */;
+		StudentService/* 인터페이스 */ //service/* 변수선언 */ = new StudentServiceFile()/* 인터페이스 구현 클래스 */
 //									service = new StudentServiceImpl();
-//									service = new StudentServiceOracle();
+									service = new StudentServiceOracle();
 		// 1.추가 2.리스트 3.한건조회 4.수정 5.삭제 9.종료
 		int menu = 0;
 		int studNum = 0;
@@ -126,10 +136,7 @@ public class StudentApp {
 			} else if (menu == 2) {
 				List<Student> list = service.studentList();
 				for (Student s : list) {
-					System.out.println("===============");
 					System.out.println(s.toString());
-					System.out.println("===============");
-					System.out.println();
 				}
 
 			} else if (menu == 3) {
@@ -139,9 +146,7 @@ public class StudentApp {
 				if (student == null) {
 					System.out.println("조회된 결과가 없습니다.");
 				} else {
-					System.out.println("===============");
 					System.out.println(student.toString());
-					System.out.println("===============");
 					System.out.println();
 				}
 			} else if (menu == 4) {
@@ -172,7 +177,7 @@ public class StudentApp {
 					studNum = scn.nextInt();
 					Student student = service.getStudent(studNum);
 					if (student != null) {
-						service.deleteInfo(student);
+						service.deleteInfo(studNum);
 						System.out.println("삭제가 완료되었습니다.");
 					} else {
 						System.out.println("해당 학번이 존재하지 않습니다.");
@@ -183,7 +188,8 @@ public class StudentApp {
 			} else if (menu == 6) {
 				System.out.println("이름 입력>>");
 				studName = scn.next();
-				List<Student> student = service.studentList(studName);
+//				List<Student> student = service.studentList(studName); 컬렉션으로 할 때 받아옴
+				Student student = service.getoneStudent(studName);
 				for (Student s : list) {
 					System.out.println(student.toString());
 					break;

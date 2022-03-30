@@ -8,9 +8,10 @@ public interface StudentService {
 	public Student getStudent(int sno); //한건조회
 	public List<Student> studentList(); //전체목록
 	public void modifyStudent(Student student); //수정
-	public void deleteInfo(Student student); //삭제
+	public void deleteInfo(int sno); //삭제
 	public List<Student> studentList(String name); //이름조회
 	public void saveToFile(); //파일로 저장
+	public Student getoneStudent(String name); //이름 각자조회
 	
 
 }

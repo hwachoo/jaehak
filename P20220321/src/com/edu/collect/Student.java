@@ -1,12 +1,15 @@
 package com.edu.collect;
+
+import java.io.Serializable;
+
 //상속 클래스
-public class Student {
+public class Student implements Serializable {
 	//참조용, 학생번호(int 1,2,3 sno), 학생이름(String), 영어점수(int), 국어점수(int)
 	
-	int StudNum;
-	String StudName;
-	int EngSc;
-	int KorSc;
+	private int StudNum;
+	private String StudName;
+	private int EngSc;
+	private int KorSc;
 	
 	public Student( ) {
 		
@@ -49,7 +52,7 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "[ 학번: " + StudNum + "이름: " + StudName + "영어점수: " + EngSc + "국어점수: " + KorSc + "]\n";
+		return "[ 학번: " + StudNum + ", 이름: " + StudName + ", 영어점수: " + EngSc + ", 국어점수: " + KorSc + "]\n";
 	}
 	
 
