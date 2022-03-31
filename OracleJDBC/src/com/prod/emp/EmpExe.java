@@ -35,7 +35,7 @@ public class EmpExe {
 				emp.setHireDate(scn.next());
 				System.out.println("직무명입력>> ");
 				emp.setJobId(scn.next());
-				;
+				
 
 				boolean result = dao.insertEmp(emp);
 				if(result)
