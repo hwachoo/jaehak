@@ -16,6 +16,23 @@ public class QuizApp extends DAO {
 			int menu = scn.nextInt();
 
 			if (menu == 1) {
+				
+				//반복시켜야 하니 for을 씌운다
+				List<Quiz> input = qso.getQuiz();
+				qso.getQuiz();
+				
+				Quiz quz = new Quiz();
+				
+				System.out.println("정답을 입력하세오.");
+				quz.setInput(scn.nextInt());
+				
+				//정답과 입력값이 같을 때, true 값으로 column에 저장
+				//오답일 경우 false로 저장하지 않음
+//				if(quz.get(i).getInput() == quz.getAnswer() ) {
+//					boolean result = quz.
+//				}
+//				}end of for
+				
 
 			} else if (menu == 2) {
 				List<Quiz> quz1 = qso.Quizlist();
@@ -23,24 +40,45 @@ public class QuizApp extends DAO {
 					System.out.println(q.toString());
 				}
 			} else if (menu == 3) {
-			
+
 				Quiz quz = new Quiz();
 				System.out.println("번호를 입력하세요.");
 				quz.setNum(scn.nextInt());
-				scn.next();
+				scn.nextLine();
 				System.out.println("문제를 입력하세요.");
 				quz.setQuiz(scn.nextLine());
-				scn.next();
+				scn.nextLine();
+				System.out.println("선택지를 입력하세요.");
+				quz.setChoice(scn.nextLine());
+				scn.nextLine();
 				System.out.print("정답을 입력하세요.");
-				quz.setAns(scn.nextLine());
-				System.out.println("점수를 입력하세요.");
-				quz.setScore(scn.nextInt());
-				
+				quz.setAnswer(scn.nextInt());
+
 				qso.insertQuiz(quz);
 
 			} else if (menu == 4) {
+				Quiz quz = new Quiz();
+				
+				System.out.println("번호를 입력하세요.");
+				quz.setNum(scn.nextInt());
+				scn.nextLine();
+				System.out.println("문제를 입력하세요.");
+				quz.setQuiz(scn.nextLine());
+				scn.nextLine();
+				System.out.println("선택지를 입력하세요.");
+				quz.setChoice(scn.nextLine());
+				scn.nextLine();
+				System.out.print("정답을 입력하세요.");
+				quz.setAnswer(scn.nextInt());
+				
+				qso.modifyQuiz(quz);
 
 			} else if (menu == 5) {
+				int qn = 0;
+				System.out.println("문제번호 입력>> ");
+				qn = scn.nextInt();
+
+				qso.deleteQuiz(qn);
 
 			} else if (menu == 9) {
 				System.out.println("시스템을 종료합니다.");

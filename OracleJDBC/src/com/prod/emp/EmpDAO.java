@@ -130,7 +130,8 @@ public class EmpDAO extends DAO {
 	// 삭제 처리
 	public boolean deleteEmp(int empId) { // id기준으로 삭제
 		conn = getConnect();
-		String sql = "delete from emp_java\r\n" + "where employee_id = ?";
+		String sql = "delete from emp_java\r\n" 
+					+ "where employee_id = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, empId);

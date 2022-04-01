@@ -6,19 +6,20 @@ import java.util.List;
 import java.util.Scanner;
 
 public class QuizServiceOracle extends DAO implements QuizService {
+	
 	Scanner scn = new Scanner(System.in);
 
 	@Override // 문제 생성
 	public void insertQuiz(Quiz quiz) {
 		conn = getConnect();
-		String sql = "insert into quiz_info(no, quiz, answer, score)\r\n" 
+		String sql = "insert into quiz_info(no, quiz, choice, answer)\r\n" 
 				+ "values(?, ?, ?, ? )";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, quiz.getNum());
 			psmt.setString(2, quiz.getQuiz());
-			psmt.setString(3, quiz.getAns());
-			psmt.setInt(4, quiz.getScore());
+			psmt.setString(3, quiz.getChoice());
+			psmt.setInt(4, quiz.getAnswer());
 
 			int r = psmt.executeUpdate(); // 쿼리가 실행된 건수를 리턴해줌
 			System.out.println(r + "건이 입력됨.");
@@ -31,14 +32,39 @@ public class QuizServiceOracle extends DAO implements QuizService {
 		}
 	}
 
-	@Override // 퀴즈 1건 조회 및 풀이
-	public Quiz getQuiz(int qn) {
-		return null;
+	@Override // 퀴즈풀기
+	public List<Quiz> getQuiz() {
+		List<Quiz> quz = new ArrayList<Quiz>();
+	
+		conn = getConnect();
+		String sql = "select quiz, choice\r\n"
+				+ "from quiz_info";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery(); 
+			Quiz quiz = new Quiz(); //안에 있으면 초기화시켜버림
+			for(int i = 0; i < quz.size(); i++) {
+				 
+				quiz.setNum(rs.getInt("no"));
+				quiz.setQuiz(rs.getString("quiz"));
+				quiz.setChoice(rs.getString("choice"));
+				quiz.setAnswer(rs.getInt("answer"));
+				
+				quz.add(quiz);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return quz;
 	}
 
 	@Override // 퀴즈 전체 리스트
 	public List<Quiz> Quizlist() {
-		List<Quiz> quz = new ArrayList<Quiz>(); // 조회된 결과값을 담기 위한 컬렉션
+		List<Quiz> quz = new ArrayList<Quiz>();
+		 // 조회된 결과값을 담기 위한 컬렉션
 		conn = getConnect();
 		String sql = "select * " 
 				+ "from quiz_info " 
@@ -50,8 +76,8 @@ public class QuizServiceOracle extends DAO implements QuizService {
 				Quiz quiz = new Quiz();
 				quiz.setNum(rs.getInt("no"));
 				quiz.setQuiz(rs.getString("quiz"));
-				quiz.setAns(rs.getString("answer"));
-				quiz.setScore(rs.getInt("score"));
+				quiz.setChoice(rs.getString("choice"));
+				quiz.setAnswer(rs.getInt("answer"));
 
 				quz.add(quiz);
 			}
@@ -66,15 +92,17 @@ public class QuizServiceOracle extends DAO implements QuizService {
 	@Override // 문제 수정
 	public void modifyQuiz(Quiz quiz) {
 		conn = getConnect();
-		String sql = "update qiuz_info \r\n"
-				+ "set quiz = ?, \r\n" 
-				+ "    answer = ?\r\n" 
+		String sql = "update quiz_info  "
+				+ "set quiz = ?, "
+				+ "    choice = ?, "
+				+ "    answer = ?   "
 				+ "where no = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, quiz.getQuiz());
-			psmt.setString(2, quiz.getAns());
-			psmt.setInt(3, quiz.getNum());
+			psmt.setString(2, quiz.getChoice());
+			psmt.setInt(3, quiz.getAnswer());
+			psmt.setInt(4, quiz.getNum());
 
 			int r = psmt.executeUpdate();
 			System.out.println(r + "건이 수정되었습니다.");
@@ -85,7 +113,7 @@ public class QuizServiceOracle extends DAO implements QuizService {
 		}
 	}
 
-	@Override
+	@Override //삭제
 	public void deleteQuiz(int qn) {
 		conn = getConnect();
 		String sql = "DELETE FROM quiz_info\r\n" 
