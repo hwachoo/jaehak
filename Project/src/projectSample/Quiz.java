@@ -9,6 +9,8 @@ public class Quiz implements Serializable {
 	private String Choice;
 	private int Answer;
 	private int input;
+	public static int lastIndex = 1;
+	//1번부터 생성하고 싶은데 0번부터 생성됨, DB에 등록된 값이 있으면 어떻게 되는지 물어볼 것
 	
 	
 	

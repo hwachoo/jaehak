@@ -130,5 +130,4 @@ public class QuizServiceOracle extends DAO implements QuizService {
 			disconnect();
 		}
 	}
-	
 }// end of class
