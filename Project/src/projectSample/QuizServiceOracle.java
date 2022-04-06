@@ -31,6 +31,26 @@ public class QuizServiceOracle extends DAO implements QuizService {
 		}
 	}
 
+//	@Override // 관리자 로그인
+//	public boolean login() {
+//		String ad, pw;
+//		List<Quiz> quz = new ArrayList<Quiz>();
+//		conn = getConnect();
+//		String sql = "select administrator, pw " 
+//						+ "from quiz_info " 
+//						+ "where no = 0";
+//		try {
+//			psmt = conn.prepareStatement(sql);
+//			rs = psmt.executeQuery();
+//			
+//		
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			disconnect();
+//		}
+//	}
 
 	@Override // 퀴즈 전체 리스트
 	public List<Quiz> Quizlist() {
