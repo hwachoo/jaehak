@@ -70,9 +70,10 @@ public class QuizApp {
 
 			} else if (menu == 2) { // 랜덤 문제 풀기
 				List<Quiz> list = qso.Quizlist();
-				Collections.shuffle(list);
+				
 
 				while (true) {
+					Collections.shuffle(list);
 					System.out.println("┌----------------------------------------------┐");
 					System.out.println("|1.1문제 풀기 | 2.3문제 풀기 | 3.5문제 풀기 | 0.돌아가기  |");
 					System.out.println("└----------------------------------------------┘");
@@ -121,28 +122,36 @@ public class QuizApp {
 					} else if (menu2 == 2) {
 						int corrects = 0;
 						int source = 0;
+						int input = 0;
 						for (int i = 0; i < 3; i++) {
 
 							System.out.println("====================================================================");
 							System.out.println(list.get(i).getQuiz());
 							System.out.println(list.get(i).getChoice());
 							System.out.println("정답을 입력하세오.");
-							int input = (scn.nextInt());
+							
+							try {
+								input = (scn.nextInt());
+								
+								if (list.get(i).getAnswer() == input) {
+									corrects++;
+								}
 
-							if (list.get(i).getAnswer() == input) {
-								corrects++;
-							}
+								if (list.get(i).getAnswer() != 0) {
+									source++;
+								}
 
-							if (list.get(i).getAnswer() != 0) {
-								source++;
-							}
-
-							if (list.get(i).getAnswer() == input) {
-								System.out.println("정답입니다.");
-							} else {
-								System.out.println("오답입니다.");
-								System.out.println("정답 :" + list.get(i).getAnswer());
-								System.out.println("해설 :" + list.get(i).getComm());
+								if (list.get(i).getAnswer() == input) {
+									System.out.println("정답입니다.");
+								} else {
+									System.out.println("오답입니다.");
+									System.out.println("정답 :" + list.get(i).getAnswer());
+									System.out.println("해설 :" + list.get(i).getComm());
+								}
+							}catch(InputMismatchException e) {
+								System.out.println("숫자를 입력하세요.");
+								scn.nextLine();
+								i--;
 							}
 						}
 						System.out.println("====================================================================");
@@ -156,28 +165,35 @@ public class QuizApp {
 					} else if (menu2 == 3) {
 						int corrects = 0;
 						int source = 0;
+						int input = 0;
 						for (int i = 0; i < 5; i++) {
 
 							System.out.println("====================================================================");
 							System.out.println(list.get(i).getQuiz());
 							System.out.println(list.get(i).getChoice());
 							System.out.println("정답을 입력하세요.");
-							int input = (scn.nextInt());
+							try {
+								input = (scn.nextInt());
 
-							if (list.get(i).getAnswer() == input) {
-								corrects++;
-							}
+								if (list.get(i).getAnswer() == input) {
+									corrects++;
+								}
 
-							if (list.get(i).getAnswer() != 0) {
-								source++;
-							}
+								if (list.get(i).getAnswer() != 0) {
+									source++;
+								}
 
-							if (list.get(i).getAnswer() == input) {
-								System.out.println("정답입니다.");
-							} else {
-								System.out.println("오답입니다.");
-								System.out.println("정답 :" + list.get(i).getAnswer());
-								System.out.println("해설 :" + list.get(i).getComm());
+								if (list.get(i).getAnswer() == input) {
+									System.out.println("정답입니다.");
+								} else {
+									System.out.println("오답입니다.");
+									System.out.println("정답 :" + list.get(i).getAnswer());
+									System.out.println("해설 :" + list.get(i).getComm());
+								}
+							}catch(InputMismatchException e) {
+								System.out.println("숫자를 입력하세요.");
+								scn.nextLine();
+								i--;
 							}
 						}
 						System.out.println("====================================================================");
