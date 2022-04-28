@@ -1,17 +1,17 @@
 package co.edu.student;
 
 public class Student {
-	private int studentNO;
+	private int studentNo;
 	private String studentName;
 	private int engScore;
 	private int korScore;
 	
 	
-	public int getStudentNO() {
-		return studentNO;
+	public int getStudentNo() {
+		return studentNo;
 	}
-	public void setStudentNO(int studentNO) {
-		this.studentNO = studentNO;
+	public void setStudentNo(int studentNo) {
+		this.studentNo = studentNo;
 	}
 	public String getStudentName() {
 		return studentName;

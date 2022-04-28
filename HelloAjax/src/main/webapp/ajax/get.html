@@ -28,11 +28,20 @@
 		let data = JSON.parse(xhtp.response); //object타입으로 데이터 변환
 		console.log(data);
 		//document.getElementById('show').innerHTML = xhtp.response;
-		document.getElementById('list').appendChild(makeTr(student));
+		let list = document.getElementById('list');
+		data.forEach(function(val){
+		document.getElementById('list').appendChild(makeTr(val));
+		})
 		};
 		
 		function makeTr(student) {
-		
+		let tr = document.createElement('tr');
+		for(let field in student) {
+		let td = document.createElement('td');
+		td.innerHTML = student[field];
+		tr.appendChild(td);
+		}
+		return tr;
 		}
 		
 	</script>
