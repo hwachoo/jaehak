@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ajax/fetch.html</title>
+<script src="ajax2.js"></script>
+</head>
+<body>
+<script>
+ 	let xhtp = new XMLHttpRequest();
+	xhtp.open('get', '../studentList.json');
+	xhtp.send();
+	xhtp.onload = function() {
+	console.log('xmlhttprequest')
+		console.log(xhtp.responseText);
+		
+		
+	}
+	
+	fetch('../studentList.json')
+		.then(function(result) {
+			let val = result.json(); // stream -> json(), text()
+			return val;
+		})
+		.then(function(result) {
+			console.log(result); //
+		})
+		.catch(function(error) {
+			console.log(error);
+		})
+
+</script>
+<button id="allChk">선택삭제</button>
+<button id="chkAll">전체선택</button>
+<table border="1">
+	<tr>
+	<td><input type='checkbox'></td>
+	<td>Hongkildong</td>
+	</tr>
+	<tr>
+	<td><input type='checkbox'></td>
+	<td>Hongkildong1</td>
+	</tr>
+	<tr>
+	<td><input type='checkbox'></td>
+	<td>Hongkildong2</td>
+	</tr>
+</table>
+<script>
+let allChk = document.getElementById('allChk');
+allChk.addEventListener('click', function(tr) {
+	let allTr = document.querySelector('tr');
+	allTr.forEach(function (tr) {
+		if(tr.firstElementChild.firstElementChild.checked == true)
+		tr.remove();
+	})
+});//end of allChk
+chkAll.addEventListener('click', function() {
+	
+})//end of chkAll
+
+</script>
+</body>
+</html>

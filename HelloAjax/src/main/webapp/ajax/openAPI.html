@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>openAPI.html</title>
+</head>
+<body>
+
+<input type="text" id="sido" value="대전광역시"><button id="findBtn">찾기</button>
+<hr>
+
+<div id="show">
+	<table border="1">
+	<thead id="thead">
+	
+	</thead>
+	<tbody id="tbody">
+	
+	</tbody>
+	</table>
+	
+</div>
+<script>
+	console.log('start');
+	
+	let fields = ['id','sido','phoneNumber','address', 'zipCode'];
+	
+	//this.
+	let obj = {
+	name: 'Hong',
+	age: 20,
+	shwoInfo: function() {
+		return this.name + ', ' + this.age;
+	 }
+	}
+	
+	function globalFnc() {
+	console.log(this); //window(최상위) 객체.
+	}
+	globalFnc();
+	
+	function init() {
+	let url =`https://api.odcloud.kr/api/15077586/v1/centers?page=1&perPage=284&returnType=JSON&serviceKey=Tk8Mv6YI4%2BUckbJdw9TcGk9lfjtJ6n%2BUSkLlbAdLjysr0T13O%2BkkThXfzxay%2FbLK3oIhnx2V6SYxBYJEIr6soA%3D%3D`;
+	let result = '';
+	let xhtp = new XMLHttpRequest(); 
+	//비동기처리 방식(Asychronous Javascript And Xml), (동기방식 : 순차적으로 실행)
+	xhtp.open('get', url);
+	xhtp.send();
+	xhtp.onload = loadCallBack;
+	
+	let findBtn = document.getElementById("findBtn");
+	findBtn.addEventListener('click', findCallBack); 
+	}//end of init
+	
+	init(); //init기능 실행(호출)
+		
+	function findCallBack(){
+		//기능구현 input.value 속성 읽어와서 filterAry -> 헤더, 바디
+		let searchSido = document.getElementById("sido").value;
+		
+		let filterAry = result.data.filter(function(ele){
+	  	//return ele.sido == searchSido;
+	  	return ele.sido.indexOf(searchSido) != -1; //포함하는 문자가 있을 때 검색
+	  });
+	
+		makeBody(filterAry);
+		//입력된 값 비우기
+		document.getElementById("sido").value = '';
+	  
+	} //end of findCallBack
+	
+	
+	
+	console.log('end');
+	//start -> end -> center
+	
+	
+	
+	function loadCallBack () {
+	console.log('center');
+	  result = JSON.parse(this.responseText);
+	  console.log(result);
+	  console.log("총건수: " + result.totalCount);
+	  
+	  console.log(result.data[0]);
+	  
+	  result.data.forEach(function(ele){
+	  if(ele.sido == '서울특별시')
+	  console.log(`id: ${ele.id}, center: ${ele.centerName}`)
+	  });
+	  
+	  let filterAry = result.data.filter(function(ele){
+	  	return ele.sido == '대전광역시';
+	  });
+	  console.log(filterAry);
+	  
+	  //head
+	  let head = document.getElementById('thead');
+	  let tr = document.createElement('tr');
+	  head.appendChild(tr);
+	  fields.forEach(function(ele){
+	  	let td = document.createElement('th');
+	  	td.innerHTML = ele.toUpperCase();
+	  	tr.appendChild(td);
+	  })
+	  
+	  makeBody(filterAry);
+	  
+	}//end of loadCallBack
+	
+	function makeBody(ary) { //makeBody 함수
+	
+		//생성된 조회리스트 삭제
+		let childTr = document.querySelectorAll('#tbody>tr');
+		childTr.forEach(function(ele){
+			ele.remove(); //tr 삭제
+			//body.removeChild(ele) - 부모요소가 있어야 함(body가 먼저 선언되어야 함)
+		});
+		//body
+	  let body = document.getElementById('tbody');
+	  
+	  ary.forEach(function(center){
+	  	let tr = document.createElement('tr');
+	  	body.appendChild(tr);
+	  	
+	  	fields.forEach(function(ele){
+	  		let td = document.createElement('td');
+	  		//address 필드일 경우 링크 제공
+	  		if(ele == 'address') {
+	  		let aTag = document.createElement('a');
+	  		aTag.setAttribute('href', `daumApi.html?k=한국공사&x=${center.lat}&y=${center.lng}`);
+	  		aTag.setAttribute('target', '_blank');
+	  		aTag.innerHTML = center[ele];
+	  		td.appendChild(aTag);
+	  		}else{
+	  		td.innerHTML = center[ele];
+	  		}
+	  		tr.appendChild(td);
+	  	});
+	  }); //end of body
+	  
+	}//end of makeBody
+	
+</script>
+</body>
+</html>
