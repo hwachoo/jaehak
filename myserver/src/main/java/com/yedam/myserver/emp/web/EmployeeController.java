@@ -16,6 +16,7 @@ import com.yedam.myserver.emp.mapper.EmployeeMapper;
 import com.yedam.myserver.emp.vo.Departments;
 import com.yedam.myserver.emp.vo.Employee;
 
+//rest를 붙일 경우 모든 메소드에 @responsebody 자동으로 붙여줌
 @RestController
 public class EmployeeController {
 	private static final Logger logger = 

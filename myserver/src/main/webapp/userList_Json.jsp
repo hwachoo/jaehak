@@ -11,6 +11,7 @@
 <script src="./resources/json.min.js"></script>
 <script type="text/javascript" >
 	let conPath = '${pageContext.request.contextPath}';
+	//모듈화
 	$(function(){
 		userList();
 
@@ -38,8 +39,10 @@
 	//사용자 삭제 요청
 	function userDelete() {
 		//삭제 버튼 클릭
+		//table에 걸어도 상관없음 (실제 이벤트는 #btnDelete)
 		$('body').on('click','#btnDelete',function(){
-			var userId = $(this).closest('tr').find('#hidden_userId').val();
+			//var userId = $(this).closest('tr').find('#hidden_userId').val();
+			var userId = $(this).closest("tr").data("id");
 			var result = confirm(userId +" 사용자를 정말로 삭제하시겠습니까?");
 			if(! result) 
 				return;
@@ -62,7 +65,8 @@
 	function userSelect() {
 		//조회 버튼 클릭
 		$('body').on('click','#btnSelect',function(){
-			var userId = $(event.target).closest('tr').find('#hidden_userId').val();
+			//var userId = $(event.target).closest('tr').find('#hidden_userId').val();
+			var userId = $(this).closest("tr").data("id");
 			//특정 사용자 조회
 			$.ajax({
 				url:conPath + '/userSelect',
@@ -89,16 +93,15 @@
 	function userUpdate() {
 		//수정 버튼 클릭
 		$('#btnUpdate').on('click',function(){
-			var id = $('input:text[name="id"]').val();
+			/*var id = $('input:text[name="id"]').val();
 			var name = $('input:text[name="name"]').val();
 			var password = $('input:text[name="password"]').val();
-			var role = $('select[name="role"]').val();		
+			var role = $('select[name="role"]').val();*/		
 			$.ajax({ 
 			    url: conPath + '/userUpdate', 
-			    type: 'PUT', 
+			    type: 'POST', 
 			    dataType: 'json', 
-			    data: JSON.stringify({ id: id, name:name,password: password, role: role }),
-			    contentType: 'application/json'
+			    data: $("#form1").serialize()
 			}).done( function(data) { 
 			        userList();
 			}).fail( function(xhr, status, message) { 
@@ -118,7 +121,7 @@
 			$.ajax({ 
 			    url: conPath + '/userInsert',  
 			    type: 'POST',  
-			    data: { id: id, name:name,password:password, role:role }
+			    data: { id: id, name:name,password:password, role:role },
 			    dataType: 'json', 
 			 }).done( function(response) {
 			    		userList();
@@ -161,21 +164,28 @@
 			url:conPath + '/userSelectAll',
 			type:'GET',
 			dataType:'json'
+			//.fail 생략가능
 		}).fail(function(xhr,status,msg){
 			alert("상태값 :" + status + " Http에러메시지 :"+msg);
+			//.done success와 유사
 		}).done(function(datas){
 			$("tbody").empty();
-			$.each(datas,function(idx,item){
+			//$.each(datas,function(idx,item){
+			for(item of datas){
+				//tr태그 생성
 				$('<tr>')
+				//td 생성 후 값 부여
+				.data("id", item.id)
 				.append($('<td>').html(item.id))
 				.append($('<td>').html(item.name))
 				.append($('<td>').html(item.password))
 				.append($('<td>').html(item.role))
 				.append($('<td>').html('<button id=\'btnSelect\'>조회</button>'))
 				.append($('<td>').html('<button id=\'btnDelete\'>삭제</button>'))
-				.append($('<input type=\'hidden\' id=\'hidden_userId\'>').val(item.id))
+				//.append($('<input type=\'hidden\' id=\'hidden_userId\'>').val(item.id))
+				//tbody 안에 삽입
 				.appendTo('tbody');
-			});//each
+			};//each
 		});
 	}//userList
 </script>

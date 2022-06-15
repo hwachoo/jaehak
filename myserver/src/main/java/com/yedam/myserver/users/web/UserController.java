@@ -37,7 +37,7 @@ public class UserController {
 	}
 	
 	@PutMapping("/userUpdate")
-	public UserVO userUpdate(@RequestBody UserVO vo) {
+	public UserVO userUpdate(UserVO vo) {
 		 mapper.merge(vo);
 		 return vo;
 	}	
