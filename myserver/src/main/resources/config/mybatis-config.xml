@@ -3,7 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<settings>
+		<!-- sql의 컬럼명에 들어간 _를 자동으로 매칭 -->
+		<setting name="mapUnderscoreToCamelCase" value="false"/>
+	</settings>
 	<typeAliases>
 		<package name="com.yedam.myserver"/> 
+		<!-- 특정 메소드 추가 시 -->
+		<!-- <typeAlias type="" alias=""/> -->
 	</typeAliases>
 </configuration>

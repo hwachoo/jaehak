@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,11 +19,14 @@ import com.yedam.myserver.emp.vo.Employee;
 
 //rest를 붙일 경우 모든 메소드에 @responsebody 자동으로 붙여줌
 @RestController
+//여러개 입력가능
+//{}안 도메인에서 오는 요청을 허용함
+@CrossOrigin(origins = {"http://127.0.0.1:5500", "", ""})
 public class EmployeeController {
 	private static final Logger logger = 
 			LoggerFactory.getLogger(EmployeeController.class);
 	
-	@Autowired
+	@Autowired 
 	private EmployeeMapper employeeDao;
 	
 	//사원검색
@@ -60,5 +64,11 @@ public class EmployeeController {
 		employeeDao.remove(bean);
 		return bean;
 	}	
+	
+	//부서별 인원수
+	@RequestMapping("empStat")
+	public List<Map> empStat(){
+		return employeeDao.empStat();
+	}
 	
 }

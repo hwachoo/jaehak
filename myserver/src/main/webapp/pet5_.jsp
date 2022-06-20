@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Pete's Pet Shop</title>
-
     <!-- Bootstrap -->
  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
@@ -32,10 +31,11 @@
 
       <div id="petsRow" class="row">
         <!-- PETS LOAD HERE -->
+        
       </div>
     </div>
 
-    <div id="petTemplate" ><!-- style="display: none;" -->
+    <div id="petTemplate" style="display : none;"><!-- style="display: none;" -->
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="panel panel-default panel-pet">
           <div class="panel-heading">
@@ -47,14 +47,59 @@
             <strong>Breed</strong>: <span class="pet-breed">Golden Retriever</span><br/>
             <strong>Age</strong>: <span class="pet-age">3</span><br/>
             <strong>Location</strong>: <span class="pet-location">Warren, MI</span><br/><br/>
-            <button class="btn btn-default btn-adopt" type="button" data-id="0">Adopt</button>
+            <button class="btn btn-primary btn-adopt" type="button" data-id="0">Adopt</button>
           </div>
         </div>
       </div>
     </div>
-
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
    <!--  <script src="resources/js/app.js"></script> -->
+   <script>
+   $(function() {
+	   list();
+	   adopt();
+   })
+   function adopt() {
+	   //버튼클릭시 분양테이블 등록
+	  // $(부모태그) 이벤트 위임(버튼)
+	   var price = prompt("가격입력"); //가격입력
+	   var id = prompt("id입력"); //data-id속성으로 id 확인
+	   
+	   $.ajax({ //ajax호출 id와 price 파라미터 전송
+		   
+	   }).done( //호출 끝나면 버튼 비활성화
+	)
+		
+	$.ajax({
+			   
+	})
+   }
+   function list() {
+   $.ajax({
+   		url : 'petSelect',
+   		dataType : 'json'
+   	}).done(function(list){
+   		var temp = $("#petTemplate");
+   		for(pet of list) {
+   		temp.find(".panel-title").html(pet.name)
+   		temp.find(".pet-breed").html(pet.breed)
+   		temp.find(".pet-age").html(pet.age)
+   		temp.find(".pet-location").html(pet.location)
+   		temp.find("img").attr("src", pet.picture)
+   		temp.find("button").data("id", pet.id)
+   		
+   		if(pet.price) {
+   		temp.find("button").attr("disabled", true);
+   		} else{
+   			temp.find("button").attr("disabled", false);
+   		}
+   		
+   		$("#petsRow").append(temp.html())
+   		}
+   	})
+   }
+  
+   </script>
   </body>
 </html>

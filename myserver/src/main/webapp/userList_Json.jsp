@@ -48,9 +48,8 @@
 				return;
 
 			$.ajax({
-				url:conPath + '/userDelete',
-				data : {id:userId},
-				type:'get',
+				url:conPath + '/users/' + userId,
+				type:'delete',
 				dataType:'json'
 			}).done(function(xhr) {
 				console.log(xhr.result);
@@ -69,9 +68,7 @@
 			var userId = $(this).closest("tr").data("id");
 			//특정 사용자 조회
 			$.ajax({
-				url:conPath + '/userSelect',
-				data : {id:userId},
-				type:'GET',
+				url:conPath + '/users/' + userId,
 				dataType:'json'
 			}).done(
 				userSelectResult
@@ -93,15 +90,17 @@
 	function userUpdate() {
 		//수정 버튼 클릭
 		$('#btnUpdate').on('click',function(){
-			/*var id = $('input:text[name="id"]').val();
+			var id = $('input:text[name="id"]').val();
 			var name = $('input:text[name="name"]').val();
 			var password = $('input:text[name="password"]').val();
-			var role = $('select[name="role"]').val();*/		
+			var role = $('select[name="role"]').val();		
 			$.ajax({ 
-			    url: conPath + '/userUpdate', 
-			    type: 'POST', 
-			    dataType: 'json', 
-			    data: $("#form1").serialize()
+			    url: conPath + '/users', 
+			    type: 'PUT', 
+			    dataType: 'json', //서버로부터 응답결과가 json
+			    //jsp자체의 contenttype이 html이어서 json으로 보내기 위해 추가 필요
+			    contentType : 'application/json', //서버로 보내는 요청파라미터가 json
+			    data: JSON.stringify({id, name, password, role}),
 			}).done( function(data) { 
 			        userList();
 			}).fail( function(xhr, status, message) { 
@@ -119,7 +118,7 @@
 			var password = $('input:text[name="password"]').val();
 			var role = $('select[name="role"]').val();		
 			$.ajax({ 
-			    url: conPath + '/userInsert',  
+			    url: conPath + '/users',  
 			    type: 'POST',  
 			    data: { id: id, name:name,password:password, role:role },
 			    dataType: 'json', 
@@ -161,7 +160,7 @@
 	//사용자 목록 조회 요청
 	function userList() {
 		$.ajax({
-			url:conPath + '/userSelectAll',
+			url:conPath + '/users',
 			type:'GET',
 			dataType:'json'
 			//.fail 생략가능

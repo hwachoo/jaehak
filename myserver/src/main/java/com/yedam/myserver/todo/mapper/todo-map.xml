@@ -2,24 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.myserver.todo.mapper.TodoMapper">
 <!-- 전체조회 --> 
-<select id="findAll" resultType="todoVO">
+<select id="findAll" resultType="com.yedam.myserver.todo.vo.TodoVO">
 	SELECT NO, CONTENTS, TODOYN 
 	  FROM TODO
 	 ORDER BY NO 
 </select>
-
-<insert id="persist">
-	<selectKey order="BEFORE" keyProperty="no" resultType="string">
-		<!-- select 시퀀스.nextval from dual -->
+<!-- 프로시져 호출 시 statementType = callable -->
+<insert id="persist" statementType="CALLABLE">
+<!-- no = out mod, 설정 필요 
+no sql에서는 number이나 vo에서는 string값으로 받아오기 때문에 jdbctype 설정 필요 -->
+    {CALL TODO_INS(#{contents},
+    			   #{no, mode=OUT, 
+    			   jdbcType=NUMERIC, 
+    			   javaType=string } 
+    			   )}
+	<!-- <selectKey order="BEFORE" keyProperty="no" resultType="string">
+		select 시퀀스.nextval from dual
 		SELECT MAX(no)+1 FROM TODO
-	</selectKey>
+	</selectKey> 
 	INSERT INTO 
 	       TODO (NO, 
 	             CONTENTS, 
 	             TODOYN ) 
          VALUES ( #{no}, 
                  #{contents}, 
-                 '0' )
+                 '0' )-->
+                 
 </insert>
  
 <update id="merge">

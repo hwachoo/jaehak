@@ -159,8 +159,12 @@ function todoUpdate(){
 
 function todoDelete(){
 	$("#myUL").on("click", "span", function(){
+		var no = $("li").attr("data-no");
 		$.ajax({
-			
+			url : 'todoDelete',
+			data : {no },
+		}).done(function() {
+			todoList();
 		})
 	})
 }
