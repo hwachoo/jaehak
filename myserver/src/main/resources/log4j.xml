@@ -43,7 +43,7 @@
 		<level value="debug" />
 	</logger>
 
-	<!-- Root Logger   fetal < error(기본설정) < warn < info  < debug < trace  -->
+	<!-- Root Logger   fetal < error(기본지정수준) < warn < info  < debug < trace  -->
 	<root>
 		<priority value="debug" />
 		<appender-ref ref="console" />

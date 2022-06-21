@@ -7,6 +7,7 @@
 	<!-- name space -> security 추가 -->
 	<!-- css/* = security 체크 x -->
 	<security:http pattern="/css/**" security="none" />
+	
 	<security:http>
 		<!-- 아무나 접근 가능함 -->
 		<security:intercept-url pattern="/top.jsp"
@@ -27,16 +28,21 @@
 			login-processing-url="/processLogin"
 			username-parameter="id"
 			authentication-success-handler-ref="loginSuccessHandler"
-			
-		default-target-url="/top.jsp" />
+			default-target-url="/top.jsp" />
+			<!-- success와 targeturl 중복안됨, ref에서 sendredirect로 지정해줘야함 -->
 		<security:logout logout-url="/logout"
 			logout-success-url="/top.jsp" />
 		<!-- jsp 있을 경우 error-page 사용 javapage의 경우 ref -->
 		<security:access-denied-handler error-page="/accessDenied.jsp"/>
-		<security:csrf disabled="true" />
+					
+		<!-- csrf token -->
+		<security:csrf disabled="false" />
 	</security:http>
 	<security:authentication-manager>
-		<security:authentication-provider>
+	<!-- userServiceImpl을 통해 로그인 체크 -->
+		<security:authentication-provider user-service-ref="userServiceImpl">
+		<!-- 비밀번호 암호화 -->
+		<security:password-encoder hash="bcrypt"/>
 		<!-- 테스트계정(db에서 불러오는 계정 아님)
 			<security:user-service>
 			{noop} - 암호화되지 않았다는 표시
@@ -48,14 +54,13 @@
 			<!-- dataSource-context.xml에 있는 datasource -->
 			<!-- users = id, password 조회
 			authorities = 해당 id의 role 정보 조회 {' ROLE_' || upper(role)} = role 규칙-->
-			<security:jdbc-user-service data-source-ref="dataSource"
-			users-by-username-query="select id, '{noop}' || password, 1
+			<!-- <security:jdbc-user-service data-source-ref="dataSource"
+			users-by-username-query="select id, password, 1
 										from users
 										where id = ?"
 			authorities-by-username-query="select id, 'ROLE_' || upper(role)
 											from users
-											where id = ?"/>
-		
+											where id = ?"/> -->
 		</security:authentication-provider>
 	</security:authentication-manager>
 </beans>
